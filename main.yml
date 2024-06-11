@@ -1,0 +1,31 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Docker image
+        run: docker build . -t your-dockerhub-username/hello-world-app
+
+      - name: Log in to Docker Hub
+        run: echo ${{ secrets.Pass@123 }} | docker login -u ${{ secrets.pavankumar869 }} --password-stdin
+
+      - name: Push to Docker Hub
+        run: docker push your-dockerhub-username/hello-world-app
